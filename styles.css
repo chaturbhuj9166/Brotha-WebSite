@@ -440,6 +440,18 @@ ul { list-style: none; }
   border: 1px solid var(--line); box-shadow: var(--shadow-md);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
+.sd-image{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .18;
+  filter: grayscale(1) contrast(1.05);
+  pointer-events: none;
+  z-index: 0;
+}
+.sd-visual > *:not(.sd-image){ position: relative; z-index: 1; }
 .sd-visual::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(10,10,12,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,12,.04) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000 30%, transparent 100%); mask-image: radial-gradient(70% 70% at 50% 50%, #000 30%, transparent 100%); }
 .sd-visual .sd-icon { width: 120px; height: 120px; border-radius: 28px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; }
 .sd-visual .sd-icon svg { width: 54px; height: 54px; fill: none; stroke: var(--black); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
