@@ -198,7 +198,7 @@ ul { list-style: none; }
 }
 .hero-inner { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 56px; position: relative; z-index: 2; }
 
-.hero h1 { color: var(--black); font-size: clamp(2.4rem, 5vw, 4rem); margin-bottom: 24px; }
+.hero h1 { color: var(--black); font-size: clamp(1.6rem, 5vw, 2.5rem); margin-bottom: 24px; }
 .hero .grad-text { background: var(--metal-dark); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .hero .eyebrow { color: var(--grey-500); }
 .hero .eyebrow::before { background: var(--grey-400); }
