@@ -64,6 +64,47 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------- Portfolio filter ---------- */
+  const filterWrap = document.getElementById('portfolioFilters');
+  const workCards = document.querySelectorAll('.work-card');
+  const portfolioEmpty = document.getElementById('portfolioEmpty');
+  if (filterWrap && workCards.length) {
+    filterWrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      filterWrap.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let shown = 0;
+      workCards.forEach((card) => {
+        const match = filter === 'all' || card.dataset.cat === filter;
+        card.style.display = match ? '' : 'none';
+        if (match) shown++;
+      });
+      if (portfolioEmpty) portfolioEmpty.hidden = shown !== 0;
+    });
+  }
+
+  /* ---------- Newsletter subscribe (blog) ---------- */
+  const subForm = document.getElementById('subscribeForm');
+  const subNote = document.getElementById('subscribeNote');
+  if (subForm) {
+    subForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = subForm.email.value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      subNote.className = 'form-note';
+      if (!ok) {
+        subNote.textContent = 'Please enter a valid email address.';
+        subNote.classList.add('err');
+        return;
+      }
+      subNote.textContent = 'Thanks for subscribing! We’ll be in touch.';
+      subNote.classList.add('ok');
+      subForm.reset();
+    });
+  }
+
   /* ---------- Contact form (client-side + WhatsApp fallback) ---------- */
   const form = document.getElementById('contactForm');
   const note = document.getElementById('formNote');
@@ -79,6 +120,16 @@
         note.textContent = 'Please enter a valid name and email.';
         note.classList.add('err');
         return;
+      }
+
+      // reCAPTCHA check — must be completed before the enquiry is sent.
+      if (typeof grecaptcha !== 'undefined') {
+        const captcha = grecaptcha.getResponse();
+        if (!captcha) {
+          note.textContent = 'Please confirm you are not a robot.';
+          note.classList.add('err');
+          return;
+        }
       }
 
       const phone = form.phone.value.trim();
@@ -99,6 +150,7 @@
       note.textContent = 'Thank you! Opening WhatsApp to send your enquiry…';
       note.classList.add('ok');
       form.reset();
+      if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
     });
   }
 })();
